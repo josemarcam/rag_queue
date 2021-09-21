@@ -29,7 +29,7 @@ require('../app/register.php');
                                                     <p class="text-danger">* <?php echo $err; ?></p>	
                                                 <?php endforeach; ?>
                                             </div>
-                                        <?php endif  ?>
+                                        <?php endif;  ?>
                                     </div>
                                         <div class="card-body">
                                             <form method="POST" action='register.php'>
