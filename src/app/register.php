@@ -1,6 +1,8 @@
 <?php
+session_start();
 require('conexao.php');
-$erros = [];
+$erros = array();
+
 try {
 	$pdo = NEW PDO($host,$user,$senha);
 } catch (PDOException $e) {
@@ -14,22 +16,17 @@ if(isset($_POST["register"])){
     $senha_1 = addslashes($_POST["senha-1"]);
     $senha_2 = addslashes($_POST["senha-2"]);
 
-//ensure that form fields are filled properly
-
     if(empty($username)){
     array_push($erros, "É preciso preencher o campo de usuário");
     }
-
 
     if(empty($email)){
     array_push($erros, "É preciso preencher o campo de email");
     }
 
-
     if(empty($senha_1)){
     array_push($erros, "É preciso preencher o campo de Senha");
     }
-
 
     if($senha_1 != $senha_2 ){
     array_push($erros, "As senhas não coincidem");
@@ -38,11 +35,10 @@ if(isset($_POST["register"])){
     $dados_rc_us = filter_input_array(INPUT_POST,FILTER_DEFAULT);
     $dados_st_us = array_map('strip_tags', $dados_rc_us);
     $dados_us = array_map('trim', $dados_st_us);
-    $select_us = $pdo->query( "SELECT us_us FROM sis_user WHERE us_us = '".$dados_us['username']."'");
+    $select_us = $pdo->query("SELECT us_user FROM sis_user WHERE us_user = '".$dados_us['username']."'");
     $result_us = $select_us->fetch(PDO::FETCH_ASSOC);
-     
 
-    if (!empty($result_us['us_us']) ) {
+    if (!empty($result_us['us_user']) ) {
         array_push($erros, "Usuario ja em uso, por favor, escolha outro!");
     }
 
@@ -50,28 +46,28 @@ if(isset($_POST["register"])){
     $dados_rc_em = filter_input_array(INPUT_POST,FILTER_DEFAULT);
     $dados_st_em = array_map('strip_tags', $dados_rc_em);
     $dados_em = array_map('trim', $dados_st_em);
-    $select_em = $pdo->query(
-     "SELECT us_email FROM sis_user WHERE us_email = '".$dados_em['email']."'");
+    $select_em = $pdo->query("SELECT us_email FROM sis_user WHERE us_email = '".$dados_em['email']."'");
     $result_em = $select_em->fetch(PDO::FETCH_ASSOC);
     
     if (!empty($result_em['us_email']) ) {
         array_push($erros, "E-mail ja em uso, por favor, escolha outro!");
     }
 
-    if (!isset($_POST['cef'])) {
-        if (!isset($_POST['bb'])) {
-            array_push($erros, "Por favor, escolha pelo menos uma opção de banco!");	
-        }	
-    }
-
     //if there is no erros, just save user on database
-
     if(count($erros)==0){
 
             $senha = md5($senha_1);
             
-            $sql =$pdo->query( "INSERT INTO  sis_user(us_us,us_email,us_senha,us_status) VALUES ('$username','$email','$senha',2)");
+            $sql =$pdo->query( "INSERT INTO  sis_user(us_user,us_email,us_senha,us_status,us_rule) VALUES ('$username','$email','$senha',2,1)");
             
+            if(!$sql){
+                array_push($erros, "Erro ao Regisrar usuario, entre em contato com a equipe de suporte!");
+            }else{
+                $_SESSION['usuario'] = $username;
+                $_SESSION['sucesso'] = "Registro";
+                header('location: ../index.php');
+            }
+                
             // include_once "PHPMailer/PHPMailer.php";
 
             // $mail = new PHPMailer();
@@ -93,7 +89,7 @@ if(isset($_POST["register"])){
 
             $_SESSION['usuario'] = $username;
             $_SESSION['sucesso'] = "Registro";
-            header('location: ../index.php');	
+            // header('location: ../index.php');
 
     }
 }

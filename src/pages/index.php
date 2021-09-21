@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,7 +21,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Bem vindo <?= $_SESSION['usuario'] ?></h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Olá, aqui você consegue se cadastrar para fazer alguma instancia junto com o pessoal da <a href="https://twitch.tv/modaotdr" target="_blank"> live do modão</a>!</li>
                         </ol>
