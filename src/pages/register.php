@@ -1,8 +1,5 @@
 <?php
 require('../app/register.php');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,12 +36,12 @@ error_reporting(E_ALL);
                                                 <div class="form-row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input class="form-control py-4" id="inputPassword" type="email" name='name' placeholder="Email" />
+                                                            <input class="form-control py-4" id="inputPassword" type="email" name='email' placeholder="Email" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input class="form-control py-4" id="inputConfirmPassword" type="username" placeholder="Usuario" />
+                                                            <input class="form-control py-4" id="inputConfirmPassword" type="text" name='username' placeholder="Usuario" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -61,7 +58,7 @@ error_reporting(E_ALL);
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4 mb-0">
-                                                    <button class="btn btn-primary btn-block">
+                                                    <button class="btn btn-primary btn-block" name='register'>
                                                         Criar Conta
                                                     </button>
                                                 </div>
