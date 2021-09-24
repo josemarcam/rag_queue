@@ -1,10 +1,9 @@
 <?php
 session_start();
-require('conexao.php');
 $erros = array();
 
 try {
-	$pdo = NEW PDO($host,$user,$senha);
+	$pdo = NEW PDO($_SESSION['HOST'],$_SESSION['DB_USER'],$_SESSION['DB_PASSWD']);
 } catch (PDOException $e) {
 	echo "Falha no erro: ".$e->getMessage();
 }

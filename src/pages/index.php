@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +24,7 @@ session_start();
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Bem vindo <?= $_SESSION['usuario'] ?></h1>
+                        <h1 class="mt-4">Bem vindo <?= (isset($_SESSION['usuario']))? $_SESSION['usuario'] :  ""  ?></h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Olá, aqui você consegue se cadastrar para fazer alguma instancia junto com o pessoal da <a href="https://twitch.tv/modaotdr" target="_blank"> live do modão</a>!</li>
                         </ol>

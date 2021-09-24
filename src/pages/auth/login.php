@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../app/login.php')
+require('../../app/login.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@ require('../app/login.php')
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Filas do Modão | Login</title>
-        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="bg-primary">
@@ -70,11 +70,11 @@ require('../app/login.php')
                     </div>
                 </main>
             </div>
-            <?php require("../assets/template/footer.php"); ?>
+            <?php require("../../assets/template/footer.php"); ?>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../js/scripts.js"></script>
+        <script src="../../js/scripts.js"></script>
         <script>
             <?php if(isset($_SESSION['us_id'])): ?>
                 window.location.replace("index.php");

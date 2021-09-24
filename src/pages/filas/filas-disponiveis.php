@@ -1,3 +1,7 @@
+<?php
+session_start();
+var_dump( __DIR__ . '/vendor/autoload.php')
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,14 +11,14 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Filas do Modão | Filas Disponíveis</title>
-        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        <?php require("../assets/template/topbar.php"); ?>
+        <?php require("../../assets/template/topbar.php"); ?>
         <div id="layoutSidenav">
-            <?php require("../assets/template/sidebar.php"); ?>
+            <?php require("../../assets/template/sidebar.php"); ?>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
@@ -120,7 +124,7 @@
                         </div> -->
                     </div>
                 </main>
-                <?php require("../assets/template/footer.php"); ?>
+                <?php require("../../assets/template/footer.php"); ?>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>

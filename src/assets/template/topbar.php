@@ -12,11 +12,11 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#!" data-target="#collapseLayouts2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 </li>
                 <div class="dropdown-menu dropdown-menu-right" id="collapseLayouts2" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="login.php">Login</a>
-                    <a class="dropdown-item" href="register.php">Cadastrar-se</a>
+                    <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/auth/login.php">Login</a>
+                    <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/auth/register.php">Cadastrar-se</a>
                     <!-- <?php #if(isset($_SESSION['us_id'])): ?> -->
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">Logout</a>
+                        <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/auth/logout.php">Logout</a>
                     <!-- <?php #endif; ?> -->
                 </div>
             </ul>
