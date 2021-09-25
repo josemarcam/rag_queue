@@ -11,10 +11,16 @@ $instancia_repository = new InstanciaRepository();
 $instancia_list = $instancia_repository->list_all();
 
 if(isset($_POST['submit'])){
-    $fila_repository = new FilaRepository();
-    unset($_POST["submit"]);
-    $args = array_values($_POST);
-    $sql_return = $fila_repository->create(...$args);
+    
+    $referer = $_SERVER['HTTP_REFERER'];
+    $domain = parse_url($referer);
+    if($domain['host'] == $_SESSION['DOMAIN']){
+        $fila_repository = new FilaRepository();
+        unset($_POST["submit"]);
+        $args = array_values($_POST);
+        $sql_return = $fila_repository->create(...$args);
+    }
+
 }
 ?>
 <!DOCTYPE html>
