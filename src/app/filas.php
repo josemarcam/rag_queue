@@ -10,7 +10,7 @@ class FilaRepository
             echo "Falha no erro: ".$e->getMessage();
         }
     }
-    function create($in_id,$qu_max_spots,$qu_status,$qu_current_spots=0){
+    function create($qu_max_spots,$in_id,$qu_status,$qu_current_spots=0){
         $sql = $this->pdo->query( "INSERT INTO `sis_queue`(`in_id`, `qu_max_spots`, `qu_current_spots`, `qu_status`) VALUES ($in_id,$qu_max_spots,$qu_current_spots,$qu_status)");
         return $sql;
     }
