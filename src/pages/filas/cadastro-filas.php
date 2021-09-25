@@ -11,10 +11,16 @@ $instancia_repository = new InstanciaRepository();
 $instancia_list = $instancia_repository->list_all();
 
 if(isset($_POST['submit'])){
-    $fila_repository = new FilaRepository();
-    unset($_POST["submit"]);
-    $args = array_values($_POST);
-    $sql_return = $fila_repository->create(...$args);
+    
+    $referer = $_SERVER['HTTP_REFERER'];
+    $domain = parse_url($referer);
+    if($domain['host'] == $_SESSION['DOMAIN']){
+        $fila_repository = new FilaRepository();
+        unset($_POST["submit"]);
+        $args = array_values($_POST);
+        $sql_return = $fila_repository->create(...$args);
+    }
+
 }
 ?>
 <!DOCTYPE html>
@@ -151,7 +157,6 @@ if(isset($_POST['submit'])){
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../../js/scripts.js"></script>
         <script>
-            console.log(toastr)
             <?php if(isset($sql_return)): ?>
                 <?php if($sql_return): ?>
                     toastr.success('A fila foi cadastrada com sucesso', 'Cadastrado com sucesso!', {timeOut: 3000})

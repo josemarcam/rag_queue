@@ -1,6 +1,23 @@
 <?php
 session_start();
-var_dump( __DIR__ . '/vendor/autoload.php')
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require_once("../../app/filas.php");
+$fila_repository = new FilaRepository();
+
+if (isset($_POST['qu_id'])){
+    
+    $referer = $_SERVER['HTTP_REFERER'];
+    $domain = parse_url($referer);
+    if($domain['host'] == $_SESSION['DOMAIN']){
+        $registration_ret = $fila_repository->register_user_on_queue($_POST['qu_id'],$_SESSION['us_id']);
+        var_dump($registration_ret);
+        $filas_disponiveis = $fila_repository->list_all_with_status();
+    }
+}else{
+    $filas_disponiveis = $fila_repository->list_all_with_status();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,8 +29,10 @@ var_dump( __DIR__ . '/vendor/autoload.php')
         <meta name="author" content="" />
         <title>Filas do Modão | Filas Disponíveis</title>
         <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     </head>
     <body class="sb-nav-fixed">
         <?php require("../../assets/template/topbar.php"); ?>
@@ -24,117 +43,86 @@ var_dump( __DIR__ . '/vendor/autoload.php')
                     <div class="container-fluid">
                         <h1 class="mt-4">Filas Disponíveis</h1>
                         <hr>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        {Nome Da instancia}
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-xl-3 col-md-6">
-                                                <div class="card bg-primary text-white mb-4">
-                                                    <div class="card-body">{Vagas Disponíveis}</div>
-                                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                                        <a class="small text-white stretched-link" href="#">Cadastrar-se</a>
-                                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                                    </div>
+                        <?php foreach ($filas_disponiveis as $queues):?>
+                            <div class="row">
+                                <div class="col-12">
+                                    <?php
+                                        $card_id = str_replace(" ","_",$queues[0]['in_name'])."_card";
+                                    ?>
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <div class="row d-flex justify-content-between">
+                                                <div class="col-3">
+                                                    <a data-toggle="collapse" href="#<?= $card_id ?>" class="collapse_btn" role="button">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </a>
+                                                    
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-3 col-md-6">
-                                                <div class="card bg-primary text-white mb-4">
-                                                    <div class="card-body">{Vagas Disponíveis}</div>
-                                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                                        <a class="small text-white stretched-link" href="#">Cadastrar-se</a>
-                                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-3 col-md-6">
-                                                <div class="card bg-primary text-white mb-4">
-                                                    <div class="card-body">{Vagas Disponíveis}</div>
-                                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                                        <a class="small text-white stretched-link" href="#">Cadastrar-se</a>
-                                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                                    </div>
+                                                <div class="col-3 d-flex justify-content-end align-items-center">
+                                                    <b> <?= $queues[0]['in_name']; ?> </b>
+                                                    <i class="fas fa-chart-area mr-1 ml-1"></i>
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card-footer small text-muted">{Numero total de Filas}</div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                        <div class="collapse" id="<?= $card_id ?>">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <?php foreach ($queues as $queue): ?>
+                                                        <?php
+                                                        $available_spots = $queue['qu_max_spots'] - $queue['qu_current_spots'];
+                                                        ?>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <form action="" id="form<?= $queue['qu_id']; ?>" method="post">
+                                                                <div class="card bg-primary text-white mb-4">
+                                                                    <div class="card-body">
+                                                                        <?= ($available_spots > 1)? "$available_spots Vagas abertas": "$available_spots Vaga aberta";  ?> 
+                                                                    </div>
+                                                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                                                        <a class="submit_form small text-white stretched-link" href="javascript:void(0)" id="<?= $queue['qu_id'] ?>">Cadastrar-se</a>
+                                                                        <input hidden readonly type="number" value="<?= $queue['qu_id'] ?>" name="qu_id">
+                                                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                            $total_queues = count($queues);
+                                        ?>
+                                        <div class="card-footer small text-muted"> <?= ($total_queues > 1)? "$total_queues Filas Disponíveis": "$total_queues Fila Disponível";  ?>  </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        Area Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar mr-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div> -->
+                        <?php endforeach; ?>
                     </div>
                 </main>
                 <?php require("../../assets/template/footer.php"); ?>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="../assets/demo/chart-area-demo.js"></script>
-        <script src="../assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="../assets/demo/datatables-demo.js"></script>
+        <script src="../../js/scripts.js"></script>
+        <script>
+            $(".collapse_btn").on("click",function(event) {
+                $(this).find('svg').toggleClass('fa-arrow-down').toggleClass('fa-arrow-up');
+            });
+
+            $(".submit_form").on("click",function(event) {
+                let qu_id = $(this).attr('id');
+                $("#form"+qu_id).submit();
+            });
+            <?php if(isset($registration_ret) && $registration_ret[0]): ?>
+                toastr.success('<?= $registration_ret[1] ?>', 'Cadastrado com sucesso!', {timeOut: 3000})
+            <?php endif; ?>
+            <?php if(isset($registration_ret) && !$registration_ret[0]): ?>
+                toastr.error('<?= $registration_ret[1] ?>', 'Erro ao cadastrar.', {timeOut: 3000})
+            <?php endif; ?>
+        </script>
+        
     </body>
 </html>

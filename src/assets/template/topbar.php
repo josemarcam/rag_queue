@@ -1,7 +1,7 @@
 <div class="row d-flex">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark d-flex ">
         <div class="col-10 d-flex">
-                <a class="navbar-brand" href="index.php">Fila do Modão</a>
+                <a class="navbar-brand" href="<?= $_SESSION['ROOT_PATH']; ?>/index.php">Fila do Modão</a>
                 <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>   
         </div>
         
@@ -12,12 +12,13 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#!" data-target="#collapseLayouts2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 </li>
                 <div class="dropdown-menu dropdown-menu-right" id="collapseLayouts2" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/auth/login.php">Login</a>
-                    <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/auth/register.php">Cadastrar-se</a>
-                    <!-- <?php #if(isset($_SESSION['us_id'])): ?> -->
-                        <div class="dropdown-divider"></div>
+                    <?php if(!isset($_SESSION['us_id'])): ?> 
+                        <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/auth/login.php">Login</a>
+                        <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/auth/register.php">Cadastrar-se</a>
+                    <?php endif; ?> 
+                    <?php if(isset($_SESSION['us_id'])): ?> 
                         <a class="dropdown-item" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/auth/logout.php">Logout</a>
-                    <!-- <?php #endif; ?> -->
+                    <?php endif; ?> 
                 </div>
             </ul>
         </div>
