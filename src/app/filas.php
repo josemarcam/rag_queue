@@ -68,6 +68,19 @@ class FilaRepository
         return False;
     }
     
+    function get_my_queues(){
+        $us_id = $_SESSION['us_id'];
+        $sql = $this->pdo->query("SELECT * FROM `sis_queue_user` 
+            INNER JOIN sis_queue ON sis_queue_user.qu_id = sis_queue.qu_id
+            INNER JOIN sis_instance ON sis_queue.in_id = sis_instance.in_id
+            WHERE sis_queue_user.us_id = $us_id ");
+        $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+        if ($results){
+            return $this->rearrange_queue_array($results);
+        }
+        return False;
+    }
+    
     function get_queue_user(int $qu_id, int $us_id){
         $sql = $this->pdo->query("SELECT * FROM `sis_queue_user` WHERE qu_id = $qu_id AND us_id = $us_id");
         $result = $sql->fetch(PDO::FETCH_ASSOC);

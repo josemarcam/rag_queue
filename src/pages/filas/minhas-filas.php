@@ -13,10 +13,10 @@ if (isset($_POST['qu_id'])){
     if($domain['host'] == $_SESSION['DOMAIN']){
         $registration_ret = $fila_repository->register_user_on_queue($_POST['qu_id'],$_SESSION['us_id']);
         var_dump($registration_ret);
-        $filas_disponiveis = $fila_repository->list_all_with_status();
+        $my_queues = $fila_repository->get_my_queues();
     }
 }else{
-    $filas_disponiveis = $fila_repository->list_all_with_status();
+    $my_queues = $fila_repository->get_my_queues();
 }
 ?>
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ if (isset($_POST['qu_id'])){
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Filas do Modão | Filas Disponíveis</title>
+        <title>Filas do Modão | Minhas Filas</title>
         <link href="../../css/styles.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -41,9 +41,9 @@ if (isset($_POST['qu_id'])){
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Filas Disponíveis</h1>
+                        <h1 class="mt-4">Minhas Filas</h1>
                         <hr>
-                        <?php foreach ($filas_disponiveis as $queues):?>
+                        <?php foreach ($my_queues as $queues):?>
                             <div class="row">
                                 <div class="col-12">
                                     <?php
@@ -93,7 +93,7 @@ if (isset($_POST['qu_id'])){
                                         <?php
                                             $total_queues = count($queues);
                                         ?>
-                                        <div class="card-footer small text-muted"> <?= ($total_queues > 1)? "$total_queues Filas Disponíveis": "$total_queues Fila Disponível";  ?>  </div>
+                                        <div class="card-footer small text-muted"> <?= ($total_queues > 1)? "$total_queues Filas": "$total_queues Fila";  ?>  </div>
                                     </div>
                                 </div>
                             </div>
