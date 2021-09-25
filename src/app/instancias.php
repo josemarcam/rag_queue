@@ -18,7 +18,10 @@ class InstanciaRepository
     function list_all(){
         $sql = $this->pdo->query("SELECT * FROM `sis_instance`");
         $results = $sql->fetchAll(PDO::FETCH_ASSOC);
-        return $results;
+        if ($results){
+            return $results;
+        }
+        return [];
     }
 }
 

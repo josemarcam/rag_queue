@@ -1,7 +1,7 @@
 <div class="row d-flex">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark d-flex ">
         <div class="col-10 d-flex">
-                <a class="navbar-brand" href="index.php">Fila do Modão</a>
+                <a class="navbar-brand" href="<?= $_SESSION['ROOT_PATH']; ?>/index.php">Fila do Modão</a>
                 <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>   
         </div>
         
