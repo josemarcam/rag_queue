@@ -1,5 +1,5 @@
 <?php
-require('../app/register.php');
+require('../../app/register.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@ require('../app/register.php');
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Fila Modão | Cadastro</title>
-        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="bg-primary">
@@ -29,7 +29,7 @@ require('../app/register.php');
                                                     <p class="text-danger">* <?php echo $err; ?></p>	
                                                 <?php endforeach; ?>
                                             </div>
-                                        <?php endif  ?>
+                                        <?php endif;  ?>
                                     </div>
                                         <div class="card-body">
                                             <form method="POST" action='register.php'>
@@ -77,6 +77,6 @@ require('../app/register.php');
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../js/scripts.js"></script>
+        <script src="../../js/scripts.js"></script>
     </body>
 </html>
