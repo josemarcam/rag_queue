@@ -5,8 +5,19 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../../app/filas.php");
 $fila_repository = new FilaRepository();
-$filas_disponiveis = $fila_repository->list_all_with_status();
-var_dump(count($filas_disponiveis));
+
+if (isset($_POST['qu_id'])){
+    
+    $referer = $_SERVER['HTTP_REFERER'];
+    $domain = parse_url($referer);
+    if($domain['host'] == $_SESSION['DOMAIN']){
+        $registration_ret = $fila_repository->register_user_on_queue($_POST['qu_id'],$_SESSION['us_id']);
+        var_dump($registration_ret);
+        $filas_disponiveis = $fila_repository->list_all_with_status();
+    }
+}else{
+    $filas_disponiveis = $fila_repository->list_all_with_status();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +29,10 @@ var_dump(count($filas_disponiveis));
         <meta name="author" content="" />
         <title>Filas do Modão | Filas Disponíveis</title>
         <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     </head>
     <body class="sb-nav-fixed">
         <?php require("../../assets/template/topbar.php"); ?>
@@ -60,13 +73,18 @@ var_dump(count($filas_disponiveis));
                                                         $available_spots = $queue['qu_max_spots'] - $queue['qu_current_spots'];
                                                         ?>
                                                         <div class="col-xl-3 col-md-6">
-                                                            <div class="card bg-primary text-white mb-4">
-                                                                <div class="card-body"><?= ($available_spots > 1)? "$available_spots Vagas abertas": "$available_spots Vaga aberta";  ?> </div>
-                                                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                                                    <a class="small text-white stretched-link" href="#" id="<?= $queue['qu_id'] ?>">Cadastrar-se</a>
-                                                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                                            <form action="" id="form<?= $queue['qu_id']; ?>" method="post">
+                                                                <div class="card bg-primary text-white mb-4">
+                                                                    <div class="card-body">
+                                                                        <?= ($available_spots > 1)? "$available_spots Vagas abertas": "$available_spots Vaga aberta";  ?> 
+                                                                    </div>
+                                                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                                                        <a class="submit_form small text-white stretched-link" href="javascript:void(0)" id="<?= $queue['qu_id'] ?>">Cadastrar-se</a>
+                                                                        <input hidden readonly type="number" value="<?= $queue['qu_id'] ?>" name="qu_id">
+                                                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </form>
                                                         </div>
                                                     <?php endforeach; ?>
                                                 </div>
@@ -85,14 +103,25 @@ var_dump(count($filas_disponiveis));
                 <?php require("../../assets/template/footer.php"); ?>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../../js/scripts.js"></script>
         <script>
             $(".collapse_btn").on("click",function(event) {
                 $(this).find('svg').toggleClass('fa-arrow-down').toggleClass('fa-arrow-up');
             });
+
+            $(".submit_form").on("click",function(event) {
+                let qu_id = $(this).attr('id');
+                $("#form"+qu_id).submit();
+            });
+            <?php if(isset($registration_ret) && $registration_ret[0]): ?>
+                toastr.success('<?= $registration_ret[1] ?>', 'Cadastrado com sucesso!', {timeOut: 3000})
+            <?php endif; ?>
+            <?php if(isset($registration_ret) && !$registration_ret[0]): ?>
+                toastr.error('<?= $registration_ret[1] ?>', 'Erro ao cadastrar.', {timeOut: 3000})
+            <?php endif; ?>
         </script>
         
     </body>

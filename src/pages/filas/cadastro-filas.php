@@ -151,7 +151,6 @@ if(isset($_POST['submit'])){
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../../js/scripts.js"></script>
         <script>
-            console.log(toastr)
             <?php if(isset($sql_return)): ?>
                 <?php if($sql_return): ?>
                     toastr.success('A fila foi cadastrada com sucesso', 'Cadastrado com sucesso!', {timeOut: 3000})
