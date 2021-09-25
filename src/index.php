@@ -10,6 +10,7 @@ $dotenv = Dotenv\Dotenv::createMutable(__DIR__);
 $dotenv->load();
 
 $_SESSION['HOST'] = $_ENV['HOST'];
+$_SESSION['DOMAIN'] = $_ENV['DOMAIN'];
 $_SESSION['DB_USER'] = $_ENV['DB_USER'];
 $_SESSION['DB_PASSWD'] = $_ENV['DB_PASSWD'];
 $_SESSION['ROOT_PATH'] = $_ENV['ROOT_PATH'];

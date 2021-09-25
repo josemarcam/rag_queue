@@ -23,7 +23,7 @@
                         </nav>
                     </div>
                     <?php if (isset($_SESSION['us_rule']) && $_SESSION['us_rule'] == 1 ): ?>
-                        <a class="nav-link" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/instancias/instancias.php">
+                        <a class="nav-link" href="<?= $_SESSION['ROOT_PATH']; ?>/pages/filas/instancias.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Instâncias
                             <!-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> -->
