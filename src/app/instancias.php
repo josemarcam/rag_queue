@@ -11,7 +11,7 @@ class InstanciaRepository
         }
     }
     function create($in_name){
-        $sql = $this->pdo->query( "INSERT INTO `sis_instancia`(`in_name`) VALUES ($in_name)");
+        $sql = $this->pdo->query( "INSERT INTO `sis_instance`(`in_name`) VALUES (\"$in_name\")");
         return $sql;
     }
     
